@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Pertemuan 5</title>
+    <style>
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }    
+
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: white;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        li {
+            background: #ecf0f1;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Manajemen Produk</h2>
+
+    <button id="buttonTampil">Tampilkan Produk</button>
+    <button id="buttonTambah"> Tambah Produk</button>
+    <button id="buttonHapus"> Hapus Produk</button>
+
+    <ul id="daftarProduk"></ul>
+
+    <script>
+        // Data Produk
+        let produkList = [
+            {id: 1, nama: "Laptop", harga: 12000000, stok: 10},
+            {id: 2, nama: "Smartphone", harga: 5000000, stok: 15},
+            {id: 3, nama: "TV", harga: 4000000, stok: 16},
+            {id: 4, nama: "Mouse", harga: 300000, stok: 12},
+            {id: 5, nama: "Earphone", harga: 200000, stok: 20}
+        ];
+
+        // menambahkan produk dengan spread operator
+        function tambahProduk(id, nama, harga, stok){
+            const produkBaru = {id, nama, harga, stok};
+            produkList = [...produkList, produkBaru]; //spread
+        }
+
+        //menghapus produk dengan rest parameter
+        function hapusProduk(...ids) {
+            produkList = produkList.filter(p => !ids.includes(p.id));
+        }
+
+        // menampilkan produk dengan destructuring
+        function tampilkanProduk(){
+            const daftar = document.getElementById("daftarProduk");
+            daftar.innerHTML = "";
+            produkList.forEach(({id, nama, harga, stok}) => {
+                let item = document.createElement('li');
+                item.textContent = `${id}. ${nama} - ${harga} (Stok: ${stok})`;
+                daftar.appendChild(item);
+            });
+        }
+
+        // event listener
+        document.getElementById("buttonTampil").addEventListener("click", tampilkanProduk);
+        document.getElementById("buttonTambah").addEventListener("click", () =>{
+            tambahProduk(6, "Kipas Angin", 300000, 8);
+            tampilkanProduk();
+        });
+        document.getElementById("buttonHapus").addEventListener("click", () => {
+            hapusProduk(2);
+            tampilkanProduk();
+        });
+
+       
+    </script>
+
+</body>
+</html>
